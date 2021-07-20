@@ -2,7 +2,6 @@ const newFormHandler = async (event) => {
     event.preventDefault();
   
     const comment = document.querySelector('#comment').value.trim();
-    const date = format_date();
     const user = req.session.user_name;
   
     if (comment) {

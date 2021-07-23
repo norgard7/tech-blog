@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Comment, User, Post } = require('../models');
+const { Comment, Post, User } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -11,10 +11,6 @@ router.get('/', async (req, res) => {
           model: User,
           attributes: ['username'],
         },
-        // { 
-        //     model: Comment,
-        //     attributes: ['comment_content', 'date_created', 'user_id']
-        // }
       ],
     });
 
@@ -39,6 +35,14 @@ router.get('/post/:id', async (req, res) => {
           model: User,
           attributes: ['username'],
         },
+        {
+          model: Comment,
+          attributes: ['comment_content', 'date_created', 'user_id'],
+          include:{
+            model: User,
+            attributes: ['username']
+          }
+        }
       ],
     });
 
@@ -53,30 +57,33 @@ router.get('/post/:id', async (req, res) => {
   }
 });
 
-// Use withAuth middleware to prevent access to route
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get('/post-comments', async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
+    const commentData = await Comment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ['username'],
+        },
+      ],
     });
+    const comments = commentData.get({ plain: true });
 
-    const user = userData.get({ plain: true });
-
-    res.render('dashboard', {
-      ...user,
-      logged_in: true
+    res.render('post-comments', {
+      ...comments,
+      logged_in: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
   }
-});
+})
+
+
 
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
   if (req.session.logged_in) {
-    res.redirect('/dashboard');
+    res.redirect('/');
     return;
   }
 

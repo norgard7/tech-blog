@@ -1,11 +1,12 @@
+<div>
 {{> post }}
-<div class="col mb-4 border border-dark post"></div>
-    <div class="d-flex justify-content-between post-header">
+<div class="mb-4 border border-dark post">
+    <div class="d-flex justify-content-between comment-header post-header">
     </div>
-    <div class="post-body">
+    <div class="col post-body">
         <form class=" new-comment-form">
             <label class="form-label" for="content">Comment</label>
-            <input name="comment" type="text" id="comment" value="leave your comment here" class="form-input" />
+            <input name="comment" type="text" id="comment" placeholder="leave your comment here" class="form-input" />
             <button type="submit" class="btn" id="comment-btn">submit</button>
         </form>
     </div>

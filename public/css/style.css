@@ -1,0 +1,29 @@
+.no-button {
+    border: none;
+    color:#007BFF;
+    background-color: #bfb5b5;
+}
+header {
+    background-color:  #bfb5b5; ;
+}
+
+.post-header {
+    background-color: #bfb5b5;
+    
+}
+.comment-header {
+    height: 15px;
+}
+
+.credits {
+    font-size: 16px;
+
+}
+#comment-btn {
+margin-bottom:15px;
+width: 100%;
+}
+
+button a {
+    color: black;
+}
